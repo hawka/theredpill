@@ -1,7 +1,7 @@
 (function () {
     pill = this;
 
-    var server = "http://late-dawn-8160.herokuapp.com/";
+    var server = "http://redpill.herokuapp.com/";
     
     pill.init = function() {
 	window.onbeforeunload = function() {
