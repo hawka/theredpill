@@ -4,8 +4,13 @@
             body, iframe, form {
                 margin: 0px;
                 border: 0px;
+                background-image: url('/images/first_aid_kit.png');
+                background-attachment:fixed;
+                background-repeat:repeat;
+                font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'DejaVu Sans Condensed', sans-serif;
+                font-size: 8pt;
             }
-            .notif-list-width {
+           .notif-list-width {
                 width: 300px;
             }
             .notif-list-height {
@@ -13,15 +18,19 @@
                 background-image: url('/images/first_aid_kit.png');
                 background-attachment:fixed;
                 background-repeat:repeat;
+            }
+
+            .all-notif-link {
+                margin: 5px;
+                text-align: center;
+                font-weight: bold;
             }      
+
         </style> 
     </head>
     <body class="notif-list-width">
-        <form id="form" action="#" method="post" target="iframe">
-            <input type="hidden" name="mark_as_read" id="mark_as_read" value=""> <!-- TODO --> 
-        </form> 
         <iframe id="iframe" name="iframe" scrolling="auto" class="notif-list-height"> </iframe> 
         <script src="js/popup.js"></script>
-        <center><a href="/notifs.html" target="_blank">See All Notifications</a></center>
+        <div class="all-notif-link"><a href="/notifs.html" target="_blank">See All Notifications</a></div>
     </body>
 </html>

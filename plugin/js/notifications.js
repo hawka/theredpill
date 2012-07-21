@@ -1,22 +1,28 @@
 notifications = {
 
     DEFAULT_TIMEOUT: 250, //ms
-    var source_url = 'http://redpill.herokuapp.com/',
 
     // Collection of notifications currently on screen
     notifs: [],
+    // unread notification count
     num_unread_notif: 0,     
 
     initialize: function() {
         if (chrome && chrome.browserAction) {
             chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
-            // updateUnreadNotifCount();
+            updateUnreadNotifCount();
         }   
     },
 
     getLastFiveNotifs: function() {
-        // var notif_url = source_url + 'getnotifications/?count=5';
         // TODO
+    },
+
+    // called when server sends us message that someone
+    // has viewed something (new notif)
+    updateUnreadNotifCount: function() {
+        num_unread_notif++;
+        updateUnreadNotifCount();
     },
 
     // figures out and returns the number of unread notifs
