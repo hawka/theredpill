@@ -14,7 +14,7 @@ var mongoose= require('mongoose');
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
+  app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -28,7 +28,7 @@ app.configure('development', function(){
 });
 
 
-
+g
 // go to homepage where we show all notifications
 // for the user
 app.get('/', routes.index);
@@ -39,6 +39,7 @@ app.post('/register', routes.registerUser);
 // get the notifications for the user 
 // since yesterday
 app.get('/getnotifications', routes.getNotifications);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
