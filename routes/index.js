@@ -13,6 +13,9 @@ exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
 
+exports.storeInfo= function(req,res){
+    
+};
 
 /**
  * registerUser -
@@ -24,6 +27,5 @@ exports.registerUser = function(req, res) {
 
     // get the user's id
     userid = req.body.userid;
-
-    
 };
+
