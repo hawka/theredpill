@@ -15,19 +15,12 @@
                 background-repeat:repeat;
             }      
         </style> 
-        <script type="text/javascript" charset="utf-8">
-            //var notifications = window.chrome.extension.getBackgroundPage().notifications;
-            //chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
-            //chrome.browserAction.setBadgeText({text : '4'});          
-        </script>
     </head>
     <body class="notif-list-width">
         <form id="form" action="#" method="post" target="iframe">
             <input type="hidden" name="mark_as_read" id="mark_as_read" value=""> <!-- TODO --> 
-        </form>
-        <iframe id="iframe" name="iframe" scrolling="auto" class="notif-list-height"> </iframe>
-        <script type="text/javascript" charset="utf-8">
-            // TODO
-        </script>
+        </form> 
+        <iframe id="iframe" name="iframe" scrolling="auto" class="notif-list-height"> </iframe> 
+        <script src="js/popup.js"></script>
     </body>
 </html>
