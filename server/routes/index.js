@@ -27,6 +27,9 @@ io.sockets.on('connection', function(socket){
         var action = parseURL(url,userid);
         if (action == null){
             action.save();
+            var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
+                'timestamp': action.timestamp, 'link': action.link,'seen': action.seen };
+            socket.emit('stalked', jsonAction);
             res.json( {'code' :3});
         }
         else
@@ -131,27 +134,27 @@ function parseURL(url, userid){
  * get the most recent notifications for a user
  * @get_param  count : count of the most recent facebook notifications
  * for a user
- * @get_param fbid : facebook id of the user for which to get notifications
+ * @get_param userid : facebook id of the user for which to get notifications
  * for
  *
  */
 exports.getNotifications = function(req, res) {
     var count = req.params.count
-    , fbid = req.params.fbid
+    , userid = req.params.userid
     , currDate = new Date()
     , dayEarlier = (new Date()).setDate(currDate.getDate()-1);
 
     // first of all, delete the messages that might persist for the
     // user since yesterday
     
-    Action.remove({viewed_id:fbid, timestamp:{"$lt":dayEarlier}}, function(err){
+    Action.remove({viewed_id:userid, timestamp:{"$lt":dayEarlier}}, function(err){
 	if (err) {
 	    console.log("an error occured while trying to delete");
 	} else {
 	    console.log("successfully deleted stuff");
 	    // after deleting those messages from the days before, keep on going:
 	    // accumulate the notifications sorted in ascending order
-	    Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
+	    Action.find({viewed_id:userid}).sort("timestamp", -1).limit(count).all(function(actions) {
 		// send actions back to the user
 		res.json(JSON.stringify(actions));
 	    });
@@ -174,7 +177,7 @@ exports.registerUser = function(req, res) {
     userid = req.body.userid;
 
     // create a new user and store in the database
-    User.find({fbid: userid}, function(err, users){
+    User.find({userid: userid}, function(err, users){
 	// if the user  already exists
 	if (users.length > 0) {
 	    response.code = 0;
@@ -212,7 +215,7 @@ exports.registerUser = function(req, res) {
 		// create and store a newUser
 		newUser = new User();
 
-		newUser.fbid = output.id;
+		newUser.userid = output.id;
 		newUser.username = output.username;
 		newUser.name = output.first_name + " " + output.last_name;
 		
