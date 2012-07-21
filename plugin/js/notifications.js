@@ -9,12 +9,12 @@ notifications = {
     initialize: function() {
         if (chrome && chrome.browserAction) {
             chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
-            updateUnreadNotifCount();
+            // updateUnreadNotifCount();
         }   
     },
 
-    getLast5Notifs: function() {
-        
+    getLastFiveNotifs: function() {
+        //
     },
 
     // figures out and returns the number of unread notifs

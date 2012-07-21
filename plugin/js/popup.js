@@ -1,12 +1,6 @@
 var notifs = chrome.extension.getBackgroundPage().notifications;   
 // loadIframeContents();
 
-function updateUnreadCounter() {
-   // notifications.fetchServerInfo(
-        // TODO
-   // );
-}
- 
 // TODO check this..?
 function loadIframeContents() {
     var iframe = document.getElementById('iframe');
