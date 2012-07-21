@@ -22,6 +22,39 @@ exports.storeInfo= function(req,res){
 };
 
 /**
+ * getNotifications
+ * get the most recent notifications for a user
+ * @get_param  count : count of the most recent facebook notifications
+ * for a user
+ * @get_param fbid : facebook id of the user for which to get notifications
+ * for
+ *
+ */
+exports.getNotifications = function(req, res) {
+    var count = req.params.count
+    , fbid = req.params.fbid
+    , currDate = new Date()
+    , dayEarlier = (new Date()).setDate(currDate.getDate()-1);
+
+    // first of all, delete the messages that might persist for the
+    // user since yesterday
+    
+    Action.remove({viewed_id:fbid, timestamp:{"$lt":dayEarlier}}, function(err){
+	if (err) {
+	    console.log("an error occured while trying to delete");
+	} else {
+	    console.log("successfully deleted stuff");
+	    // after deleting those messages from the days before, keep on going:
+	    // accumulate the notifications sorted in ascending order
+	    Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
+		// send actions back to the user
+		res.json(JSON.stringify(actions));
+	    });
+	}
+    });
+};
+
+/**
  * registerUser -
  * registers the user in our database
  */

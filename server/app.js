@@ -28,9 +28,16 @@ app.configure('development', function(){
 
 
 
+// go to homepage where we show all notifications
+// for the user
 app.get('/', routes.index);
 
+// register a new user
 app.post('/register', routes.registerUser);
+
+// get the notifications for the user 
+// since yesterday
+app.get('/getnotifications', routes.getNotifications);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
