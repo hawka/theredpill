@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http');
 
+var mongoose= require('mongoose');
 var app = express();
 
 app.configure(function(){
@@ -24,6 +25,8 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
+
 
 app.get('/', routes.index);
 
