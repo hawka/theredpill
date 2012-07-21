@@ -24,10 +24,15 @@ exports.storeInfo= function(req,res){
    userid= req.body.userid;
    url= req.body.url;
    
-   var action = new Action();
-   action.viewer_id= userid;
-   action.viewed_id=
-
+   var action = parseURL(url,userid);
+   if (action == null){
+    action.save();
+    res.json( {'code' :3});
+   }
+   else
+   {
+       res.json({'code': 2 });
+   }
 };
 
 /** parses the URL for significant information 
@@ -45,6 +50,7 @@ function parseURL(url, userid){
     action.viewer_id= userid;
  
     var parsed= url.parse(url);
+    action.link= url;
     //continues if the host is www.facebook.com
     if (parsed.host == 'www.facebook.com'){
         //if it's a photo
@@ -52,7 +58,6 @@ function parseURL(url, userid){
            // parse url for information
            var ids= parsed.query["set"].split['.'];
            if (ids.length == 4){
-            //TODO make sure that the id is in the mongodb
             User.findOne({userid: ids[3]},function(err,docs){
                 if (!err){
                 if (docs != null){
@@ -82,31 +87,41 @@ function parseURL(url, userid){
         var username= parsed.pathname.substring(1);
         var intrep= parseInt(username);
         var userid;
+        action.view_type= 1;
         if (isNaN(intrep)){
             //its a string username
             User.findOne({username: username}, function (err, docs){
                 if (!err){
                     if (docs != null){
                         //is a member
-                        userid= docs[userid];
+                        action.viewed_id= docs[userid];
                     }
+                    else
+                     {
+                         console.log("null doc");
+                         return null;
+                     }
                 }
                 else {console.log("find one error");}
             });
         }
         else{
-        userid= username;
+        User.findOne({userid: username}, function (err, docs){
+            if (docs != null){
+                action.viewed_id= userid;
+            }
+            else
+            {return null; }
+        });
+        } 
         }
-        action.viewed_id= username;
-        
-        
-        }
+      else {return null;}
+
     }
     else
     {console.log("host is not facebook")
     return null;}
-    
-
+    return action;
 }
 /**
  * registerUser -
