@@ -4,11 +4,12 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , http = require('http');
+,  app = module.exports = express()
+, routes = require('./routes')
+, http = require('http');
 
 var mongoose= require('mongoose');
-var app = express();
+
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);

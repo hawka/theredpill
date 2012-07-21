@@ -1,13 +1,13 @@
 
 var mongoose = require("mongoose")
 , Schema = mongoose.Schema
-, app = require("./app")
-, io = require("socket.io").listen(app);
-, http = require("http");
+, app = require("./../app")
+, io = require("socket.io").listen(app)
+, http = require("http")
 , https = require("https");
 
 
-require("./models");
+require("./../models");
 
 /*
  * GET home page.
