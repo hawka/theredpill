@@ -8,7 +8,9 @@
     "default_popup": "popup.html",
     "default_title": "The Red Pill"
   },
-  "background_page": "background.html",
+  "background": {
+    "page": "background.html"
+  },
   "permissions": [
   ]
 }
