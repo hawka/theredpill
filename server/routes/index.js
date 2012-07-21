@@ -151,7 +151,7 @@ exports.getNotifications = function(req, res) {
 	    console.log("successfully deleted stuff");
 	    // after deleting those messages from the days before, keep on going:
 	    // accumulate the notifications sorted in ascending order
-	    Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
+	    Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
 		// send actions back to the user
 		res.json(JSON.stringify(actions));
 	    });
