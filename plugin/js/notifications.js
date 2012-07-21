@@ -1,6 +1,7 @@
 notifications = {
 
     DEFAULT_TIMEOUT: 250, //ms
+    var source_url = 'http://redpill.herokuapp.com/',
 
     // Collection of notifications currently on screen
     notifs: [],
@@ -14,7 +15,8 @@ notifications = {
     },
 
     getLastFiveNotifs: function() {
-        //
+        // var notif_url = source_url + 'getnotifications/?count=5';
+        // TODO
     },
 
     // figures out and returns the number of unread notifs
