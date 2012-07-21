@@ -13,6 +13,10 @@ notifications = {
         }   
     },
 
+    getLast5Notifs: function() {
+        
+    },
+
     // figures out and returns the number of unread notifs
     // the user has. called by updateUnreadNotifCount().
     getUnreadNotifCount: function() {
