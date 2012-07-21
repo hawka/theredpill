@@ -1,25 +1,33 @@
 <html>
-  <head>
-    <style>
-      body {
-        margin: 0px;
-      }
-      .max-height {
-       height: 580px; 
-      }
-      .notif-list-height {
-        height: 370px;
-      }
-      .max-width {
-        width: 780px;
-      }
-      .notif-list-width {
-        width: 330px;
-      }      
-    
-    </style> 
-  </head>
-  <body>
-    Stuff will go here.
-  </body>
+    <head>
+        <style>
+            body, iframe, form {
+                margin: 0px;
+                border: 0px;
+            }
+            .notif-list-width {
+                width: 300px;
+            }
+            .notif-list-height {
+                height: 350px;
+                background-image: url('/images/first_aid_kit.png');
+                background-attachment:fixed;
+                background-repeat:repeat;
+            }      
+        </style> 
+        <script type="text/javascript" charset="utf-8">
+            //var notifications = window.chrome.extension.getBackgroundPage().notifications;
+            //chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
+            //chrome.browserAction.setBadgeText({text : '4'});          
+        </script>
+    </head>
+    <body class="notif-list-width">
+        <form id="form" action="#" method="post" target="iframe">
+            <input type="hidden" name="mark_as_read" id="mark_as_read" value=""> <!-- TODO --> 
+        </form>
+        <iframe id="iframe" name="iframe" scrolling="auto" class="notif-list-height"> </iframe>
+        <script type="text/javascript" charset="utf-8">
+            // TODO
+        </script>
+    </body>
 </html>
