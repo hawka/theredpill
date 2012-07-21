@@ -1,10 +1,10 @@
 var notifs = chrome.extension.getBackgroundPage().notifications;   
-loadIframeContents();
+// loadIframeContents();
 
 function updateUnreadCounter() {
-    notifications.fetchServerInfo(
+   // notifications.fetchServerInfo(
         // TODO
-    );
+   // );
 }
  
 // TODO check this..?
