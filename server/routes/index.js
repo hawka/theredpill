@@ -153,6 +153,11 @@ exports.getNotifications = function(req, res) {
 	    // accumulate the notifications sorted in ascending order
 	    if (count) {
 		Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
+		    var actionsToSend, action;
+		    action = {
+			
+		    };		    ;
+		    var action = {};
 		    // send actions back to the user
 		    res.json(JSON.stringify(actions));
 		});
