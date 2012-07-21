@@ -17,23 +17,25 @@ exports.index = function(req, res){
  * storeInfo-
  * stores the information given from the url, and the userid
  */
-exports.storeInfo= function(req,res){
-   var userid; 
-   var url;
 
-   userid= req.body.userid;
-   url= req.body.url;
-   
-   var action = parseURL(url,userid);
-   if (action == null){
-    action.save();
-    res.json( {'code' :3});
-   }
-   else
-   {
-       res.json({'code': 2 });
-   }
-};
+io.sockets.on('connection', function(socket){
+    socket.on('storeInfo', function(data){
+        data= JSON.parse(data);
+        var userid= data['userid']; 
+        var url= data['url'];
+
+        var action = parseURL(url,userid);
+        if (action == null){
+            action.save();
+            res.json( {'code' :3});
+        }
+        else
+    {
+        res.json({'code': 2 });
+    }
+
+    });
+});
 
 /** parses the URL for significant information 
  * https://www.facebook.com/photo.php?fbid=1831227463847&set=a.1266052214819.2031969.1335180786&type=1&theater
