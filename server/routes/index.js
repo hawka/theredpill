@@ -332,7 +332,7 @@ var getJSON = exports.getJSON =  function(options, onResult)
 };
 
 var makePlainFromActions = function(actions) {
-    var actionsToSend, action;
+    var actionsToSend = [], action;
     actions.forEach(function(item, i) {
 	action = {
 	    viewer_id : item.viewer_id
