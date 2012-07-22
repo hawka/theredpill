@@ -184,6 +184,12 @@ exports.getNotifications = function(req, res) {
 	} else {
 	    console.log("successfully deleted stuff");
 	    // after deleting those messages from the days before, keep on going:
+	    options = {
+		host: "graph.facebook.com"
+		, port: 80
+		, path: "/"+userid
+	    };
+
 	    getJSON(options, function(statusCode, output){
 		console.log("statusCode: "+statusCode);
 		console.log("object received: "+JSON.stringify(output));
