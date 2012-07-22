@@ -170,8 +170,8 @@ function parseURL(url, userid){
  *
  */
 exports.getNotifications = function(req, res) {
-    var count = req.params.count
-    , userid = req.params.userid
+    var count = req.query.count
+    , userid = req.query.userid
     , currDate = new Date()
     , dayEarlier = (new Date()).setDate(currDate.getDate()-1);
     
@@ -236,14 +236,7 @@ exports.registerUser = function(req, res) {
 
     // get the user's id
     userid = req.query.userid;
-    console.log(req.query);
-    console.log(req.body);
-    console.log(req.params);
-    console.log(userid);
-    // create a new user and store in the database
-    console.log("printing user");
-    console.log(User);
-    console.log("after printing usser");
+
     User.find({"userid": userid}, function(err, users){
 	// if the user  already exists
 	console.log(users);
@@ -277,8 +270,6 @@ exports.registerUser = function(req, res) {
 	   "locale": "en_US"
 	   }
 	*/
-	console.log("options: ");
-	console.log(options);
 	getJSON(options, function(statusCode, output){
 	    console.log("statusCode: "+statusCode);
 	    console.log("object received: "+JSON.stringify(output));
