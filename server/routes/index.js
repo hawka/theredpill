@@ -200,6 +200,7 @@ exports.getNotifications = function(req, res) {
 		    console.log("output: ");
 		    // accumulate the notifications sorted in ascending order
 		    Action.find({viewed_id:userid}).sort("timestamp",-1).execFind(function(err,docs){
+			console.log("docs: ");
 			console.log(docs);
 			return;
 			if (count) {
