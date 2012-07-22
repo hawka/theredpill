@@ -129,7 +129,6 @@ function parseURL(url, userid){
            // parse url for information
            console.log("GETTING PHOTO");
            console.log(parsed.query);
-           //var ids= parsed.query['set'].split('.');
            var ids= parsed.query.split('&');
            var viewedid;
            for (i in ids){
