@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     // then get the notifications via an ajax call
     $.get('http://redpill.herokuapp.com/getnotifications', function(data) {
-	
+	// dat
     });
 });
 
