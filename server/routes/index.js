@@ -46,6 +46,7 @@ io.sockets.on('connection', function(socket){
                     console.log('multiple documents');
                 }
                 else{
+                    console.log("jsonaction");
                     var name= doc['name']; 
                     var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
                         'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
