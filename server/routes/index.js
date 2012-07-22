@@ -44,7 +44,8 @@ io.sockets.on('connection', function(socket){
 	
     });
     
-    socket.on('seen', function(data){
+    /*
+    socket.on('markSeen', function(data){
 	console.log(data);
 	data= JSON.parse(data);
 	var _ids= data['_ids'];
@@ -65,6 +66,11 @@ io.sockets.on('connection', function(socket){
 	    }
 	});
     });
+    */
+    socket.on('markSeen', function(data) {
+	console.log(JSON.parse(data));
+    });
+    
     socket.on('event',function(data){
 	socket.emit('echo', data);
     });
