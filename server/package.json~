@@ -6,7 +6,8 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "2.8.5",
-    "jade": "*"
+    "express": "2.5.8",
+    "jade": "*",
+    "zlib" : "*"
   }
 }

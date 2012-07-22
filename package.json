@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "express": "2.5.8",
-    "jade": "*",
-    "zlib": "*"
+    "jade": "*"
+    /*"zlib": "**/"
   }
 }
