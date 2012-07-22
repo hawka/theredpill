@@ -10,9 +10,10 @@ notifications = {
     num_unread_notif: 0,     
 
     initialize: function() {
+        var self = notifications; 
         if (chrome && chrome.browserAction) {
             chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
-            updateUnreadNotifCount();
+            self.updateUnreadNotifCount();
         }   
     },
 
@@ -21,8 +22,9 @@ notifications = {
     },
 
     getLastFiveNotifs: function( userid, iframe ) {
-        if ( notifs.length == 5 )
-            return notifs;
+        var self = notifications; 
+        if ( self.notifs.length == 5 )
+            return self.notifs;
 
         $.get( 'http://redpill.herokuapp.com/getnotifications?count=5&userid=' + userid , function( response ) {
             var actions = JSON.parse(response);
@@ -36,14 +38,14 @@ notifications = {
                 else
                     vtype = 'information';
 
-                notifs.push( { viewer: acn.viewer_name , type: vtype , link: acn.link } );
+                self.notifs.push( { viewer: acn.viewer_name , type: vtype , link: acn.link } );
             }
 
             var iframeDoc = iframe.contentWindow.document;
             iframeDoc.open();
             var nstr = '';
-            for ( var n in notifs ) 
-                nstr += '<a href="' + n.link + '">' + n.viewer + ' has looked at your ' + n.type + '.</a></br>';
+            for ( var n in self.notifs ) 
+                nstr += '<a href=\"' + n.link + '\">' + n.viewer + ' has looked at your ' + n.type + '.</a></br>';
             iframeDoc.write( nstr ); 
             iframeDoc.close();            
 
@@ -54,18 +56,20 @@ notifications = {
     // called when server sends us message that someone
     // has viewed something (new notif)
     newUnreadNotif: function( action ) {
-        num_unread_notif++;
-        updateUnreadNotifCount();
+        var self = notifications; 
+        self.num_unread_notif++;
+        self.updateUnreadNotifCount();
         // TODO html5 notification thing
-        notifs.pop();
-        notifs.unshift( action );
-        getLastFiveNotifs();
+        self.notifs.pop();
+        self.notifs.unshift( action );
+        self.getLastFiveNotifs();
     },
 
     // figures out and returns the number of unread notifs
     // the user has. called by updateUnreadNotifCount().
     getUnreadNotifCount: function() {
-        return num_unread_notif;
+        var self = notifications; 
+        return self.num_unread_notif;
     },
 
     // updates the little counter on the badge to how many
