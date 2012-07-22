@@ -207,7 +207,8 @@ exports.getNotifications = function(req, res) {
 			Action.find({viewed_id:userid}).sort("timestamp", -1).all(function(actions) {
 			    // send actions back to the user
 			    var actionsToSend = makePlainFromActions(actions);
-			    
+			    console.log("actions to send");
+			    console.log(actionsToSend);
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			});
