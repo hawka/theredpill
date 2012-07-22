@@ -27,9 +27,27 @@ notifications = {
         $.get( 'http://redpill.herokuapp.com/getnotifications?count=5&userid=' + userid , function( response ) {
             var actions = JSON.parse(response);
             for ( var acn in actions ) {
-                notifs.push( { viewer: acn.viewer_name , type: acn.view_type , link: acn.link } );
+                // switch type to string
+                var vtype = '';
+                if ( acn.view_type == 0 ) 
+                    vtype = 'image';
+                else if ( acn.view_type == 1 ) 
+                    vtype = 'profile';
+                else
+                    vtype = 'information';
+
+                notifs.push( { viewer: acn.viewer_name , type: vtype , link: acn.link } );
             }
-            
+
+            var iframeDoc = iframe.contentWindow.document;
+            iframeDoc.open();
+            var nstr = '';
+            for ( var n in notifs ) 
+                nstr += '<a href="' + n.link + '">' + n.viewer + ' has looked at your ' + n.type + '.</a></br>';
+            iframeDoc.write( nstr ); 
+            iframeDoc.close();            
+
+            iframe.src = iframe.src;
         }); 
     },
 
@@ -41,6 +59,7 @@ notifications = {
         // TODO html5 notification thing
         notifs.pop();
         notifs.unshift( action );
+        getLastFiveNotifs();
     },
 
     // figures out and returns the number of unread notifs
