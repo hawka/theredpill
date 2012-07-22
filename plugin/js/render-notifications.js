@@ -8,7 +8,7 @@ $(document).ready(function(){
         $.get('http://redpill.herokuapp.com/getnotifications?userid='+ userId+ '&count=0', function(data) {
             data= JSON.parse(data.actions);
             if (data.length == 0){
-                $('body').append($('<div>').html('<div>No new notifications. Maybe you should become more interesting. Or have creepier friends. The truth hurts. </div>'));
+                $('body').append($('<div>').html('<div><br><b>No new notifications.</b><br>Maybe you should become more interesting. Or have creepier friends.<br>The truth hurts. </div>'));
            }
            else{
             for (d in data){
