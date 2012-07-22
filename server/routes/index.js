@@ -62,7 +62,6 @@ io.sockets.on('connection', function(socket){
     )};
 
   socket.on('event',function(data){
-  data= JSON.parse(data);
   socket.emit('echo', data);
   }
 });
