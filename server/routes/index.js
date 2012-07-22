@@ -31,6 +31,7 @@ exports.index = function(req, res){
 
 io.sockets.on('connection', function(socket){
     socket.on('storeInfo', function(data){
+        console.log("HERE");
         console.log("store info data"); 
         console.log(data);
         data= JSON.parse(data);
