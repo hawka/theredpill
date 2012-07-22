@@ -13,6 +13,8 @@
   },
   "permissions": [
     "tabs",
-    "cookies"
+    "cookies",
+    "*://www.facebook.com/",
+    "*://*/*"
   ]
 }
