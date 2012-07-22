@@ -68,7 +68,7 @@ io.sockets.on('connection', function(socket){
     });
     */
     socket.on('markSeen', function(data) {
-	console.log(JSON.parse(data));
+	console.log(data);
     });
     
     socket.on('event',function(data){
