@@ -35,7 +35,7 @@ io.sockets.on('connection', function(socket){
             User.find({userid: userid},function (err, doc){
                 if (doc.length > 1){
                     console.log('multiple documents');
-                    response.code = 0; 
+                    res.json({'code': 0}); 
                 }
                 else{
                     var name= doc['name']; 
