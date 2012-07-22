@@ -45,14 +45,12 @@ io.sockets.on('connection', function(socket){
             User.find({userid: userid},function (err, doc){
                 if (doc.length > 1){
                     console.log('multiple documents');
-                    //res.json({'code': 0}); 
                 }
                 else{
                     var name= doc['name']; 
                     var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
                         'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
                     socket.emit('stalked', jsonAction);
-                    //res.json( {'code' :3});
                 }
 
             });
@@ -60,7 +58,6 @@ io.sockets.on('connection', function(socket){
        else
 	
    {
-          //  res.json({'code': 2 });
             console.log("shit");
 	}
 	
@@ -118,11 +115,9 @@ io.sockets.on('connection', function(socket){
  * RETURNS an Action() if it's not an action, returns null
  */          
 function parseURL(url, userid){
-    var action= new Action();
-    action.viewer_id= userid;
+    var action;
  
     var parsed= node_url.parse(url);
-    action.link= url;
     //continues if the host is www.facebook.com
     if (parsed.host == 'www.facebook.com'){
         //if it's a photo
@@ -144,7 +139,12 @@ function parseURL(url, userid){
                 if (!err){
                 if (docs != null){
                     //is a member
+                    action= new Action();
+                    action.view_type= 0;  
+                    action.link= url;
+                    action.viewer_id= userid;
                     action.viewed_id= viewedid;
+                    return action;
                 }
                 else {
                     console.log("viewer is not a member");
@@ -160,43 +160,53 @@ function parseURL(url, userid){
            console.log("no information on the viewed");
            return null;
            }
-           action.view_type= 0;  
         }
         //its not a photo
         else if (parsed.pathname != '/'){
         
         // check that it's a username
         // access mongoose to get that information and get userid
-        var username= parsed.pathname.substring(1);
-        var intrep= parseInt(username);
-        var userid;
-        action.view_type= 1;
-        if (isNaN(intrep)){
-            //its a string username
-            User.findOne({username: username}, function (err, docs){
-                if (!err){
+            var username= parsed.pathname.substring(1);
+            var intrep= parseInt(username);
+            var userid;
+            if (isNaN(intrep)){
+                //its a string username
+                User.findOne({username: username}, function (err, docs){
+                    if (!err){
+                        if (docs != null){
+                            //is a member
+                            action= new Action();
+                            action.view_type= 1;  
+                            action.link= url;
+                            action.viewer_id= userid;
+                            action.viewed_id= docs[userid];
+                            return action;
+                        }
+                        else
+                {
+                    console.log("null doc");
+                    return null;
+                }
+                    }
+                    else {console.log("find one error");}
+                });
+            }
+            else{
+                User.findOne({userid: username}, function (err, docs){
                     if (docs != null){
-                        //is a member
-                        action.viewed_id= docs[userid];
+
+                        action= new Action();
+                        action.view_type= 1;
+                        action.view_type= 0;  
+                        action.link= url;
+                        action.viewer_id= userid;
+                        action.viewed_id= username;
+                        return action;
                     }
                     else
-                     {
-                         console.log("null doc");
-                         return null;
-                     }
-                }
-                else {console.log("find one error");}
-            });
-        }
-        else{
-        User.findOne({userid: username}, function (err, docs){
-            if (docs != null){
-                action.viewed_id= userid;
-            }
-            else
-            {return null; }
-        });
-        } 
+                {return null; }
+                });
+            } 
         }
       else {return null;}
 
@@ -204,7 +214,8 @@ function parseURL(url, userid){
     else
     {console.log("host is not facebook")
     return null;}
-    return action;
+    
+    return null;
 }
 
 /**
