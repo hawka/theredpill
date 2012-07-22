@@ -128,8 +128,8 @@ function parseURL(url, userid){
         if (parsed.pathname == '/photo.php'){
            // parse url for information
            console.log("GETTING PHOTO");
-           console.log(parsed.query);
-           var ids= parsed.query['set'].split['.'];
+           console.log(parset d.query);
+           var ids= parsed.query['set'].split('.');
            if (ids.length == 4){
             User.findOne({userid: ids[3]},function(err,docs){
                 if (!err){
