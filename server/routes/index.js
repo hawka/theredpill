@@ -9,6 +9,11 @@ var mongoose = require("mongoose")
 
 require("./../models");
 
+mongoose.connect("mongodb://heroku:c61b8669adeaf308cf2307bc63908ba7@flame.mongohq.com:27064/app6069460");
+
+// import the models here
+var User = mongoose.model("User")
+, Action = mongoose.mode("Action");
 /*
  * GET home page.
  */
@@ -224,11 +229,16 @@ exports.registerUser = function(req, res) {
     , options;
 
     // get the user's id
-    userid = req.body.userid;
-
+    userid = req.query.userid;
+    console.log(userid);
     // create a new user and store in the database
-    User.find({userid: userid}, function(err, users){
+    console.log("printing user");
+    console.log(User);
+    console.log("after printing usser");
+    User.find({"userid": userid}, function(err, users){
 	// if the user  already exists
+	console.log(users);
+	console.log(err);
 	if (users.length > 0) {
 	    response.code = 0;
 	    // 0 -> "User Already Exists"
