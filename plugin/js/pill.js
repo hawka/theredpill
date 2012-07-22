@@ -16,10 +16,10 @@
 	    console.log(msg); 
 	});
 	pill.socket.on('connect', function(msg) {
-
+	    console.log("connected");
 	});
 	pill.socket.onclose = function () {
-	
+	    console.log("closed");	
 	};
     };
     
@@ -31,4 +31,6 @@
     pill.send = function (e, msg) {
 	pill.socket.emit(e, msg);
     };
+
+    pill.init();
 })();
