@@ -212,9 +212,6 @@ exports.getNotifications = function(req, res) {
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			});
 		    }
-		    
-		    
-		    res.json(response);		
 		}  
 	    });	
 	    
