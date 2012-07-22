@@ -28,7 +28,7 @@ app.configure('development', function(){
 });
 
 
-g
+
 // go to homepage where we show all notifications
 // for the user
 app.get('/', routes.index);
@@ -45,8 +45,8 @@ app.get('/getnotifications', routes.getNotifications);
 app.listen((process.env.PORT || 3000), function(){
     console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
+
 /*
-app
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
