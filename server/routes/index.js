@@ -40,6 +40,7 @@ io.sockets.on('connection', function(socket){
 	
         var action = parseURL(url,userid);
         if (action != null){
+            console.log('saved');
             action.save();
             User.find({userid: userid},function (err, doc){
                 if (doc.length > 1){

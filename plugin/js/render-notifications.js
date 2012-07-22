@@ -18,10 +18,10 @@ $(document).ready(function(){
                 var link= data['link'];
                 var type= (data['view_type'] == 0) ? 'Photo': 'Profile';
                 var real_name= data["name"];
-
+                if (data['seen'] == false){
                 var message= real_name + " looked at your <a href=" + link + ">" + type + "</a> at " + time;
                 $('body').append($('<div>').html('<div>' + message + '</div>'));
-
+                }
 
 
         }}
