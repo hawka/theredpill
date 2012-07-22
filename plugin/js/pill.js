@@ -12,6 +12,15 @@
 
     pill.connect = function() {
 	pill.socket = io.connect(server); 
+	pill.socket.on('stalked', function(msg) {
+	    console.log(msg); 
+	    var data = JSON.parse(msg); 
+	    notifications.newUnreadNotif(
+		"/images/favicon.ico",
+		data.name + "has just viewed" + (data.view_type)?"your profile":"this image of you",
+		""
+	    );
+	});
 	pill.socket.on('message', function(msg) {
 	    console.log(msg); 
 	});
