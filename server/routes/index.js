@@ -1,4 +1,3 @@
-
 var mongoose = require("mongoose")
 , Schema = mongoose.Schema
 , app = require("./../app")
@@ -47,8 +46,8 @@ io.sockets.on('connection', function(socket){
                     res.json( {'code' :3});
                 }
 
-            }
             });
+            }
        else
 	{
             res.json({'code': 2 });
