@@ -197,14 +197,14 @@ exports.getNotifications = function(req, res) {
 		    var fullName = output.name;
 		    // accumulate the notifications sorted in ascending order
 		    if (count) {
-			Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
+			Action.find({viewed_id:userid}).sort("timestamp", -1).limit(count).all(function(actions) {
 			    var actionsToSend = makePlainFromActions(actions);
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			});
 		    }
 		    else {
-			Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
+			Action.find({viewed_id:userid}).sort("timestamp", -1).all(function(actions) {
 			    // send actions back to the user
 			    var actionsToSend = makePlainFromActions(actions);
 			    
