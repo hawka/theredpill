@@ -127,7 +127,8 @@ function parseURL(url, userid){
         //if it's a photo
         if (parsed.pathname == '/photo.php'){
            // parse url for information
-           var ids= parsed.query["set"].split['.'];
+           console.log(parsed.query);
+           var ids= parsed.query['set'].split['.'];
            if (ids.length == 4){
             User.findOne({userid: ids[3]},function(err,docs){
                 if (!err){
