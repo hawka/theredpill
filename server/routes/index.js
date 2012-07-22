@@ -133,6 +133,7 @@ function parseURL(url, userid){
            var viewedid;
            for (i in ids){
             if (ids[i].indexOf('set') != -1){
+                console.log("here");
                 var moreids= ids[i].split('.');
                 viewedid= moreids[1];
             }
