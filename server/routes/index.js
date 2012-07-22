@@ -39,30 +39,30 @@ io.sockets.on('connection', function(socket){
 
     });
 
-  socket.on('seen', function(data){
-    data= JSON.parse(data);
-    var _ids= data['_ids'];
-    if (_ids[0] == null){
-        //mark all as seen
-        Action.find({}, function(err, actions){
+    socket.on('seen', function(data){
+	var data= JSON.parse(data);
+	var _ids= data['_ids'];
+	if (!_ids){
+            //mark all as seen
+            Action.find({}, function(err, actions){
+		for (a in actions){
+                    actions[a]['seen'] = true;
+                    actions.save();
+		}
+		
+            });
+	}
+	Action.find({_id: _ids}, function(err, actions){
             for (a in actions){
-                actions[a]['seen'] = true;
-                actions.save();
+		actions[a]['seen'] = true;
+		actions[a].save();
             }
-        
-        });
-    }
-    Action.find({_id: _ids}, function(err, actions){
-        for (a in actions){
-            actions[a]['seen'] = true;
-            actions.save();
-        }
+	    
+	});
+	
+    });
     
-        )};
-  };
 });
-
-
 
 /** parses the URL for significant information 
  * https://www.facebook.com/photo.php?fbid=1831227463847&set=a.1266052214819.2031969.1335180786&type=1&theater
