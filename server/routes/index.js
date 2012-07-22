@@ -5,6 +5,11 @@ var mongoose = require("mongoose")
 , http = require("http")
 , https = require("https");
 
+io.configure(function(){
+    io.set('log level', 1);
+    io.set('transports', ['xhr-polling']);
+    io.set('polling duration', 10);
+});
 
 require("./../models");
 
