@@ -3,6 +3,8 @@ notifications = {
     DEFAULT_TIMEOUT: 250, //ms
 
     // Collection of notifications currently on screen
+    // format of contents is obj { viewer_name , view_type , link }
+    // view_type: 0 is image, 1 is profile page
     notifs: [],
     // unread notification count
     num_unread_notif: 0,     
@@ -18,12 +20,16 @@ notifications = {
         pill.send("markSeen", { _ids: [] });
     },
 
-    getLastFiveNotifs: function( userid ) {
+    getLastFiveNotifs: function( userid, iframe ) {
         if ( notifs.length == 5 )
             return notifs;
+
         $.get( 'http://redpill.herokuapp.com/getnotifications?count=5&userid=' + userid , function( response ) {
-                      
-            // TODO  
+            var actions = JSON.parse(response);
+            for ( var acn in actions ) {
+                notifs.push( { viewer: acn.viewer_name , type: acn.view_type , link: acn.link } );
+            }
+            
         }); 
     },
 

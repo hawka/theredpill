@@ -2,20 +2,8 @@ var notifs = chrome.extension.getBackgroundPage().notifications;
 
 notifs.markAllAsSeen( pill );
 
-// loadIframeContents();
-
-// TODO check this..?
-function loadIframeContents() {
+chrome.cookies.get( { url: "https://www.facebook.com" , name: "c_user" } , function(cookie) {
+    var curr_uid = cookie.value;
     var iframe = document.getElementById('iframe');
-
-    var mark_as_read = document.getElementById('mark_as_read');                
-
-    var source = ''; // TODO
-    form.setAttribute('action', source);
-
-    iframe.onload = updateUnreadCounter;
-    form.submit();
-    return iframe;
+    notifs.getLastFiveNotifs( curr_uid , iframe );
 }
-
-
