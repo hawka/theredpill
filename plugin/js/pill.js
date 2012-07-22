@@ -23,12 +23,12 @@
 	};
     };
     
-    pill.disconnect = function() {
-	pill.send(JSON.stringify(
+    pill.disconnect = function(msg) {
+	pill.send("close", msg);
 	pill.socket.disconnect();
     };
 
-    pill.send = function (msg) {
-
+    pill.send = function (e, msg) {
+	pill.socket.emit(e, msg);
     });
-});
+})();
