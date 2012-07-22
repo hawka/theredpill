@@ -195,35 +195,27 @@ exports.getNotifications = function(req, res) {
 		console.log("object received: "+JSON.stringify(output));
 		if (statusCode == 200) {
 		    var fullName = output.name;
-		    console.log(count);
-		    console.log(output);
-		    console.log("output: ");
+		    
 		    // accumulate the notifications sorted in ascending order
-		    Action.find({viewed_id:userid}).sort("timestamp",-1).execFind(function(err,docs){
-			console.log("docs: ");
-			console.log(docs);
-			return;
+		    Action.find({viewed_id:userid}).sort("timestamp",-1).execFind(function(err,actions){
 			if (count) {
+			    var actionsToSend = makePlainFromActions(actions.slice(0, count));
+			    console.log("actions to send");
+			    console.log(actionsToSend);			    
+			    // send actions back to the user
+			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			    
-			    Action.find({viewed_id:userid}).sort("timestamp", -1).limit(count).all(function(actions) {
-				console.log("actions to send 1");
-				console.log(actions);
-				var actionsToSend = makePlainFromActions(actions);
-				// send actions back to the user
-				res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
-			    });
 			} else {
-			    Action.find({viewed_id:userid}).sort("timestamp", -1).all(function(actions) {
-				// send actions back to the user
-				var actionsToSend = makePlainFromActions(actions);
-				console.log("actions to send");
-				console.log(actionsToSend);
-				// send actions back to the user
-				res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
+			    // send actions back to the user
+			    var actionsToSend = makePlainFromActions(actions);
+			    console.log("actions to send");
+			    console.log(actionsToSend);
+			    // send actions back to the user
+			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			});
-		    }
-			
-		    });
+										 }
+		    
+		});
 		}  
 	    });	
 	    
