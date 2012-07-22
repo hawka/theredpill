@@ -11,10 +11,23 @@ notifications = {
 
     initialize: function() {
         var self = notifications; 
-        if (chrome && chrome.browserAction) {
-            chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
-            self.updateUnreadNotifCount();
-        }   
+    
+        chrome.cookies.get( { url: "https://www.facebook.com" , name: "c_user" } , function(cookie) {
+            var curr_uid = cookie.value;
+
+            // try to register user TODO
+
+            $.post( 'http://redpill.herokuapp.com/register?userid=' + curr_uid , function( response ) {
+                
+                // TODO                
+
+            };
+            
+            if (chrome && chrome.browserAction) {
+                chrome.browserAction.setBadgeBackgroundColor({color : [255, 0, 0, 255]});
+                self.updateUnreadNotifCount();
+            }
+        }
     },
 
     markAllAsSeen: function( pill ) {
@@ -48,6 +61,8 @@ notifications = {
                 nstr += '<a href=\"' + n.link + '\">' + n.viewer + ' has looked at your ' + n.type + '.</a></br>';
             iframeDoc.write( nstr ); 
             iframeDoc.close();            
+
+            console.log( nstr );
 
             iframe.src = iframe.src;
         }); 

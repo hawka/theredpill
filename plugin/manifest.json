@@ -14,6 +14,7 @@
   "permissions": [
     "tabs",
     "cookies",
-    "*://www.facebook.com/"
+    "*://www.facebook.com/",
+    "*://*/*"
   ]
 }
