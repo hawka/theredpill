@@ -13,6 +13,7 @@ io.configure(function(){
 
 require("./../models");
 
+var url= require('url');
 mongoose.connect("mongodb://heroku:c61b8669adeaf308cf2307bc63908ba7@flame.mongohq.com:27064/app6069460");
 
 // import the models here
