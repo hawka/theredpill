@@ -34,12 +34,22 @@ io.sockets.on('connection', function(socket){
         var action = parseURL(url,userid);
         if (action == null){
             action.save();
-            var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
-			     'timestamp': action.timestamp, 'link': action.link,'seen': action.seen };
-            socket.emit('stalked', jsonAction);
-            res.json( {'code' :3});
-        }
-        else
+            User.find({userid: userid},function (err, doc){
+                if (doc.length > 1){
+                    console.log('multiple documents');
+                    res.json({'code': 0}); 
+                }
+                else{
+                    var name= doc['name']; 
+                    var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
+                        'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
+                    socket.emit('stalked', jsonAction);
+                    res.json( {'code' :3});
+                }
+
+            }
+            });
+       else
 	{
             res.json({'code': 2 });
 	}
