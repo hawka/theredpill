@@ -29,6 +29,7 @@
     };
 
     pill.send = function (e, msg) {
+    console.log("emitting");
 	pill.socket.emit(e, msg);
     };
 

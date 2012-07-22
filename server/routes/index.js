@@ -88,7 +88,7 @@ io.sockets.on('connection', function(socket){
 	});
     });
     
-    socket.on('event',function(data){
+    socket.on('echo',function(data){
 	socket.emit('echo', data);
     });
 });
