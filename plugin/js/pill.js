@@ -30,5 +30,5 @@
 
     pill.send = function (e, msg) {
 	pill.socket.emit(e, msg);
-    });
+    };
 })();
