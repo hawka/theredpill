@@ -198,7 +198,9 @@ exports.getNotifications = function(req, res) {
 		    console.log(count);
 		    console.log(output);
 		    // accumulate the notifications sorted in ascending order
+		    console.log(Action.find({viewed_id: userid}).sort("timestamp", -1));
 		    if (count) {
+			
 			Action.find({viewed_id:userid}).sort("timestamp", -1).limit(count).all(function(actions) {
 			    console.log("actions to send 1");
 			    console.log(actions);
@@ -206,8 +208,7 @@ exports.getNotifications = function(req, res) {
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
 			});
-		    }
-		    else {
+		    } else {
 			Action.find({viewed_id:userid}).sort("timestamp", -1).all(function(actions) {
 			    // send actions back to the user
 			    var actionsToSend = makePlainFromActions(actions);
