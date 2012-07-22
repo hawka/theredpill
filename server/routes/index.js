@@ -13,7 +13,7 @@ mongoose.connect("mongodb://heroku:c61b8669adeaf308cf2307bc63908ba7@flame.mongoh
 
 // import the models here
 var User = mongoose.model("User")
-, Action = mongoose.mode("Action");
+, Action = mongoose.model("Action");
 /*
  * GET home page.
  */
