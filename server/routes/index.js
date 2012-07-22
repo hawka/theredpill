@@ -13,7 +13,7 @@ io.configure(function(){
 
 require("./../models");
 
-var url= require('url');
+var node_url= require('url');
 mongoose.connect("mongodb://heroku:c61b8669adeaf308cf2307bc63908ba7@flame.mongohq.com:27064/app6069460");
 
 // import the models here
@@ -120,7 +120,7 @@ function parseURL(url, userid){
     var action= new Action();
     action.viewer_id= userid;
  
-    var parsed= url.parse(url);
+    var parsed= node_url.parse(url);
     action.link= url;
     //continues if the host is www.facebook.com
     if (parsed.host == 'www.facebook.com'){
