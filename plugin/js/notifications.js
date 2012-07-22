@@ -3,6 +3,8 @@ notifications = {
     DEFAULT_TIMEOUT: 250, //ms
 
     // Collection of notifications currently on screen
+    // format of contents is obj { viewer_name , view_type , link }
+    // view_type: 0 is image, 1 is profile page
     notifs: [],
     // unread notification count
     num_unread_notif: 0,     
@@ -14,21 +16,55 @@ notifications = {
         }   
     },
 
-    getLastFiveNotifs: function() {
-        // TODO
+    markAllAsSeen: function( pill ) {
+        pill.send("markSeen", { _ids: [] });
+    },
+
+    getLastFiveNotifs: function( userid, iframe ) {
+        if ( notifs.length == 5 )
+            return notifs;
+
+        $.get( 'http://redpill.herokuapp.com/getnotifications?count=5&userid=' + userid , function( response ) {
+            var actions = JSON.parse(response);
+            for ( var acn in actions ) {
+                // switch type to string
+                var vtype = '';
+                if ( acn.view_type == 0 ) 
+                    vtype = 'image';
+                else if ( acn.view_type == 1 ) 
+                    vtype = 'profile';
+                else
+                    vtype = 'information';
+
+                notifs.push( { viewer: acn.viewer_name , type: vtype , link: acn.link } );
+            }
+
+            var iframeDoc = iframe.contentWindow.document;
+            iframeDoc.open();
+            var nstr = '';
+            for ( var n in notifs ) 
+                nstr += '<a href="' + n.link + '">' + n.viewer + ' has looked at your ' + n.type + '.</a></br>';
+            iframeDoc.write( nstr ); 
+            iframeDoc.close();            
+
+            iframe.src = iframe.src;
+        }); 
     },
 
     // called when server sends us message that someone
     // has viewed something (new notif)
-    updateUnreadNotifCount: function() {
+    newUnreadNotif: function( action ) {
         num_unread_notif++;
         updateUnreadNotifCount();
+        // TODO html5 notification thing
+        notifs.pop();
+        notifs.unshift( action );
+        getLastFiveNotifs();
     },
 
     // figures out and returns the number of unread notifs
     // the user has. called by updateUnreadNotifCount().
     getUnreadNotifCount: function() {
-        // TODO
         return num_unread_notif;
     },
 
