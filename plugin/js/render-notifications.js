@@ -7,12 +7,14 @@ $(document).ready(function(){
 
         $.get('http://redpill.herokuapp.com/getnotifications?userid='+ userId+ '&count=0', function(data) {
             data= JSON.parse(data.actions);
+            console.log(data);
             if (data.length == 0){
                 $('body').append($('<div>').html('<div><br><b>No new notifications.</b><br>Maybe you should become more interesting. Or have creepier friends.<br>The truth hurts. </div>'));
             }
             else{
             for (d in data){
                 //information needed to retrieve from action: viewer_id, timestamp, link
+                console.log(data);
                 var stalker= data['viewer_id'];
                 var time= data['timestamp'];
                 var link= data['link'];
