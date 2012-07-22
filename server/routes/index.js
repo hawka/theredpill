@@ -156,19 +156,18 @@ exports.getNotifications = function(req, res) {
 	    // accumulate the notifications sorted in ascending order
 	    if (count) {
 		Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
-		    var actionsToSend, action;
-		    action = {
-			
-		    };		    ;
-		    var action = {};
+		    var actionsToSend = makePlainFromActions(actions);
 		    // send actions back to the user
-		    res.json(JSON.stringify(actions));
+		    res.json(JSON.stringify(actionsToSend));
 		});
 	    }
 	    else {
 		Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
 		    // send actions back to the user
-		    res.json(JSON.stringify(actions));
+		    var actionsToSend = makePlainFromActions(actions);
+		    
+		    // send actions back to the user
+		    res.json(JSON.stringify(actionsToSend));
 		});
 	    }
 	}
@@ -282,3 +281,20 @@ var getJSON = exports.getJSON =  function(options, onResult)
 
     req.end();
 };
+
+var makePlainFromActions = function(actions) {
+    var actionsToSend, action;
+    actions.forEach(function(item, i) {
+	action = {
+	    viewer_id : item.viewer_id
+	    , viewed_id : item.viewed_id
+	    , view_type: item.view_type
+	    , timestamp : item.timestamp
+	    , link : item.link
+	    , seen : item.seen
+	};			
+	actionsToSend.push(action);
+    });
+    return actionsToSend;
+};
+    
