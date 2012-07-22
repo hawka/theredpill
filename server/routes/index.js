@@ -41,7 +41,6 @@ io.sockets.on('connection', function(socket){
         var action = parseURL(url,userid);
         if (action != null){
             console.log('saved');
-            action.save();
             User.find({userid: userid},function (err, doc){
                 if (doc.length > 1){
                     console.log('multiple documents');
@@ -144,7 +143,7 @@ function parseURL(url, userid){
                     action.link= url;
                     action.viewer_id= userid;
                     action.viewed_id= viewedid;
-                    return action;
+                    action.save();
                 }
                 else {
                     console.log("viewer is not a member");
@@ -180,7 +179,7 @@ function parseURL(url, userid){
                             action.link= url;
                             action.viewer_id= userid;
                             action.viewed_id= docs[userid];
-                            return action;
+                            action.save();
                         }
                         else
                 {
@@ -201,7 +200,7 @@ function parseURL(url, userid){
                         action.link= url;
                         action.viewer_id= userid;
                         action.viewed_id= username;
-                        return action;
+                        action.save();
                     }
                     else
                 {return null; }
