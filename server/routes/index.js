@@ -39,19 +39,19 @@ io.sockets.on('connection', function(socket){
         var url= data['url'];
 	
         var action = parseURL(url,userid);
-        if (action == null){
+        if (action != null){
             action.save();
             User.find({userid: userid},function (err, doc){
                 if (doc.length > 1){
                     console.log('multiple documents');
-                    res.json({'code': 0}); 
+                    //res.json({'code': 0}); 
                 }
                 else{
                     var name= doc['name']; 
                     var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
                         'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
                     socket.emit('stalked', jsonAction);
-                    res.json( {'code' :3});
+                    //res.json( {'code' :3});
                 }
 
             });
@@ -59,7 +59,7 @@ io.sockets.on('connection', function(socket){
        else
 	
    {
-            res.json({'code': 2 });
+          //  res.json({'code': 2 });
             console.log("shit");
 	}
 	
@@ -127,6 +127,7 @@ function parseURL(url, userid){
         //if it's a photo
         if (parsed.pathname == '/photo.php'){
            // parse url for information
+           console.log("GETTING PHOTO");
            console.log(parsed.query);
            var ids= parsed.query['set'].split['.'];
            if (ids.length == 4){
@@ -148,6 +149,7 @@ function parseURL(url, userid){
            }else
            {
            console.log("no information on the viewed");
+           return null;
            }
            action.view_type= 0;  
         }
