@@ -19,7 +19,8 @@ var User = mongoose.model("User")
  */
 
 exports.index = function(req, res){
-    res.render('index');
+    res.json({hi: "me"});
+    // res.render('index');
 };
 
 
