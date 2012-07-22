@@ -1,6 +1,5 @@
 var notifs = chrome.extension.getBackgroundPage().notifications;   
 
-pill.init();
 notifs.markAllAsSeen( pill );
 
 // loadIframeContents();
@@ -8,7 +7,6 @@ notifs.markAllAsSeen( pill );
 // TODO check this..?
 function loadIframeContents() {
     var iframe = document.getElementById('iframe');
-    var form = document.getElementById('form');
 
     var mark_as_read = document.getElementById('mark_as_read');                
 
