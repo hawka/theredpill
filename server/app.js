@@ -31,7 +31,7 @@ app.configure('development', function(){
 
 // go to homepage where we show all notifications
 // for the user
-app.get('/', routes.index);
+app.get('/', function(req, res){res.send("Hello");});
 
 // register a new user
 app.post('/register', routes.registerUser);
