@@ -128,14 +128,22 @@ function parseURL(url, userid){
         if (parsed.pathname == '/photo.php'){
            // parse url for information
            console.log("GETTING PHOTO");
-           console.log(parset d.query);
-           var ids= parsed.query['set'].split('.');
+           console.log(parsed.query);
+           //var ids= parsed.query['set'].split('.');
+           var ids= parsed.query.split('&');
+           var viewedid;
+           for (i in ids){
+            if (ids[i].indexOf('set') != -1){
+                var moreids= ids[i].split('.');
+                viewedid= moreids[1];
+            }
+           }
            if (ids.length == 4){
             User.findOne({userid: ids[3]},function(err,docs){
                 if (!err){
                 if (docs != null){
                     //is a member
-                    action.viewed_id= ids[3];
+                    action.viewed_id= viewedid;
                 }
                 else {
                     console.log("viewer is not a member");
