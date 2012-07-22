@@ -26,7 +26,7 @@ notifications = {
     },
 
     markAllAsSeen: function( pill ) {
-        pill.send("markSeen", { _ids: [] });
+        // pill.send("markSeen", { _ids: [] });
     },
 
     getLastFiveNotifs: function( userid, iframe ) {
