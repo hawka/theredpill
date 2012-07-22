@@ -274,6 +274,8 @@ exports.registerUser = function(req, res) {
 	   "locale": "en_US"
 	   }
 	*/
+	console.log("options: ");
+	console.log(options);
 	getJSON(options, function(statusCode, output){
 	    console.log("statusCode: "+statusCode);
 	    console.log("object received: "+JSON.stringify(output));
