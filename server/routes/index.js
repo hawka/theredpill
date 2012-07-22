@@ -68,7 +68,12 @@ io.sockets.on('connection', function(socket){
     });
     */
     socket.on('markSeen', function(data) {
-	console.log(data);
+	Action.find({_id:data._ids}, function(err, toSeens) {
+	    toSeens.forEach(function(item, i) {
+		item.seen = true;
+		item.save();
+	    });
+	});
     });
     
     socket.on('event',function(data){
