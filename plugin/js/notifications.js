@@ -18,15 +18,23 @@ notifications = {
         pill.send("markSeen", { _ids: [] });
     },
 
-    getLastFiveNotifs: function() {
-        // TODO
+    getLastFiveNotifs: function( userid ) {
+        if ( notifs.length == 5 )
+            return notifs;
+        $.get( 'http://redpill.herokuapp.com/getnotifications?count=5&userid=' + userid , function( response ) {
+                      
+            // TODO  
+        }); 
     },
 
     // called when server sends us message that someone
     // has viewed something (new notif)
-    updateUnreadNotifCount: function() {
+    newUnreadNotif: function( action ) {
         num_unread_notif++;
         updateUnreadNotifCount();
+        // TODO html5 notification thing
+        notifs.pop();
+        notifs.unshift( action );
     },
 
     // figures out and returns the number of unread notifs
