@@ -28,7 +28,7 @@ io.sockets.on('connection', function(socket){
         data= JSON.parse(data);
         var userid= data['userid']; 
         var url= data['url'];
-
+	
         var action = parseURL(url,userid);
         if (action == null){
             action.save();
@@ -47,39 +47,37 @@ io.sockets.on('connection', function(socket){
 
             }
             });
-        else
-        {
+       else
+	{
             res.json({'code': 2 });
-        }
-
+	}
+	
     });
-
-    socket.on('seen', function(data){
-<<<<<<< HEAD
-        data= JSON.parse(data);
-        var _ids= data['_ids'];
-        if (_ids[0] == null){
-            //mark all as seen
-            Action.find({}, function(err, actions){
-                for (a in actions){
-                    actions[a]['seen'] = true;
-                    actions.save();
-            }
-        
-        });
-    }
-    Action.find({_id: _ids}, function(err, actions){
-        for (a in actions){
-            actions[a]['seen'] = true;
-            actions.save();
-        }
     
-        )};
-    )};
-
-  socket.on('event',function(data){
-  socket.emit('echo', data);
-  }
+    socket.on('seen', function(data){
+	console.log(data);
+	data= JSON.parse(data);
+	var _ids= data['_ids'];
+	if (_ids[0] == null){
+	    //mark all as seen
+	    Action.find({}, function(err, actions){
+		for (a in actions){
+		    actions[a]['seen'] = true;
+		    actions.save();
+		}
+		
+	    });
+	}
+	Action.find({_id: _ids}, function(err, actions){
+	    for (a in actions){
+		actions[a]['seen'] = true;
+		actions.save();
+	    }
+	});
+    });
+    socket.on('event',function(data){
+	socket.emit('echo', data);
+    });
 });
 
 
@@ -208,32 +206,32 @@ exports.getNotifications = function(req, res) {
 		console.log("object received: "+JSON.stringify(output));
 		if (statusCode == 200) {
 		    var fullName = output.name;
+		    
 		    // accumulate the notifications sorted in ascending order
-		    if (count) {
-			Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
-			    var actionsToSend = makePlainFromActions(actions);
+		    Action.find({viewed_id:userid}).sort("timestamp",-1).execFind(function(err,actions){
+			if (count) {
+			    var actionsToSend = makePlainFromActions(actions.slice(0, count));
+			    console.log("actions to send");
+			    console.log(actionsToSend);			    
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
-			});
-		    }
-		    else {
-			Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
-			    // send actions back to the user
-			    var actionsToSend = makePlainFromActions(actions);
 			    
+			} else {
+			    // send actions back to the user
+			    var actionsToSend = makePlainFromActions(actions);
+			    console.log("actions to send");
+			    console.log(actionsToSend);
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
-			});
-		    }
-		    
-		    
-		    res.json(response);		
-		}  
-	    });	
-	    
-	}
-    });
+			}
+		    });
+		}
+		
+	    });
+	}  
+    });	    
 };
+
 
 
 /**
@@ -345,7 +343,7 @@ var getJSON = exports.getJSON =  function(options, onResult)
 };
 
 var makePlainFromActions = function(actions) {
-    var actionsToSend, action;
+    var actionsToSend = [], action;
     actions.forEach(function(item, i) {
 	action = {
 	    viewer_id : item.viewer_id
