@@ -6,6 +6,7 @@ $(document).ready(function(){
         var userId= cookie.value;
 
         $.get('http://redpill.herokuapp.com/getnotifications?userid='+ userId+ '&count=0', function(data) {
+            console.log(data);
             data= JSON.parse(data.actions);
             console.log(data);
             if (data.length == 0){
