@@ -195,6 +195,8 @@ exports.getNotifications = function(req, res) {
 		console.log("object received: "+JSON.stringify(output));
 		if (statusCode == 200) {
 		    var fullName = output.name;
+		    console.log(count);
+		    console.log(output);
 		    // accumulate the notifications sorted in ascending order
 		    if (count) {
 			Action.find({viewed_id:userid}).sort("timestamp", -1).limit(count).all(function(actions) {
