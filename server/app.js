@@ -45,7 +45,8 @@ app.get('/getnotifications', routes.getNotifications);
 // open a port for this server
 
 app.listen((process.env.PORT || 3000), function(){
-    console.log("Express server listening on port %d",app.get('port'));
+    console.log("Express server listening on a port.");
+
 });
 
 
