@@ -169,10 +169,10 @@ exports.getNotifications = function(req, res) {
     , userid = req.params.userid
     , currDate = new Date()
     , dayEarlier = (new Date()).setDate(currDate.getDate()-1);
-
+    
     // first of all, delete the messages that might persist for the
     // user since yesterday
-    
+    console.log("hi!");
     Action.remove({viewed_id:userid, timestamp:{"$lt":dayEarlier}}, function(err){
 	if (err) {
 	    console.log("an error occured while trying to delete");
