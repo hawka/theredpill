@@ -44,7 +44,7 @@ io.sockets.on('connection', function(socket){
     var _ids= data['_ids'];
     if (_ids[0] == null){
         //mark all as seen
-        Action.find({}, function(err, actions){
+      Action.find({}, function(err, actions){
             for (a in actions){
                 actions[a]['seen'] = true;
                 actions.save();
@@ -59,7 +59,7 @@ io.sockets.on('connection', function(socket){
         }
     
         )};
-  };
+    )};
 });
 
 
