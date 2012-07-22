@@ -212,16 +212,15 @@ exports.getNotifications = function(req, res) {
 			    console.log(actionsToSend);
 			    // send actions back to the user
 			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
-			});
-										 }
-		    
-		});
-		}  
-	    });	
-	    
-	}
-    });
+			}
+		    });
+		}
+		
+	    });
+	}  
+    });	    
 };
+
 
 
 /**
