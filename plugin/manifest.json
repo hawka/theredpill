@@ -12,6 +12,7 @@
     "page": "background.html"
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "cookies"
   ]
 }
