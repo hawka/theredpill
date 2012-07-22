@@ -26,6 +26,7 @@ exports.index = function(req, res){
 
 io.sockets.on('connection', function(socket){
     socket.on('storeInfo', function(data){
+        console.log("store info data" + data);
         data= JSON.parse(data);
         var userid= data['userid']; 
         var url= data['url'];
