@@ -34,7 +34,7 @@ io.sockets.on('connection', function(socket){
     socket.on('storeInfo', function(data){
         console.log("HERE");
         console.log("store info data");
-        console.log(data);
+        //console.log(data);
         var userid= data['userid']; 
         var url= data['url'];
 	
@@ -128,7 +128,7 @@ function parseURL(url, userid){
         if (parsed.pathname == '/photo.php'){
            // parse url for information
            console.log("GETTING PHOTO");
-           console.log(parsed.query);
+           //console.log(parsed.query);
            var ids= parsed.query.split('&');
            var viewedid;
            for (i in ids){
