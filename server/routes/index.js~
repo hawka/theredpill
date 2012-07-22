@@ -9,11 +9,6 @@ var mongoose = require("mongoose")
 
 require("./../models");
 
-mongoose.connect("mongodb://heroku:c61b8669adeaf308cf2307bc63908ba7@flame.mongohq.com:27064/app6069460");
-
-// import the models here
-var User = mongoose.model("User")
-, Action = mongoose.model("Action");
 /*
  * GET home page.
  */
@@ -32,38 +27,27 @@ io.sockets.on('connection', function(socket){
         var action = parseURL(url,userid);
         if (action == null){
             action.save();
-            User.find({userid: userid},function (err, doc){
-                if (doc.length > 1){
-                    console.log('multiple documents');
-                    response.code = 0; 
-                }
-                else{
-                    var name= doc['name']; 
-                    var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
-                        'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
-                    socket.emit('stalked', jsonAction);
-                    res.json( {'code' :3});
-                }
-
-            }
-            });
-        else
-        {
-            res.json({'code': 2 });
+            var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
+                'timestamp': action.timestamp, 'link': action.link,'seen': action.seen };
+            socket.emit('stalked', jsonAction);
+            res.json( {'code' :3});
         }
+        else
+    {
+        res.json({'code': 2 });
+    }
 
     });
 
-    socket.on('seen', function(data){
-<<<<<<< HEAD
-        data= JSON.parse(data);
-        var _ids= data['_ids'];
-        if (_ids[0] == null){
-            //mark all as seen
-            Action.find({}, function(err, actions){
-                for (a in actions){
-                    actions[a]['seen'] = true;
-                    actions.save();
+  socket.on('seen', function(data){
+    data= JSON.parse(data);
+    var _ids= data['_ids'];
+    if (_ids[0] == null){
+        //mark all as seen
+      Action.find({}, function(err, actions){
+            for (a in actions){
+                actions[a]['seen'] = true;
+                actions.save();
             }
         
         });
@@ -183,26 +167,20 @@ function parseURL(url, userid){
  *
  */
 exports.getNotifications = function(req, res) {
-    var count = req.query.count
-    , userid = req.query.userid
+    var count = req.params.count
+    , userid = req.params.userid
     , currDate = new Date()
     , dayEarlier = (new Date()).setDate(currDate.getDate()-1);
-    
+
     // first of all, delete the messages that might persist for the
     // user since yesterday
-    console.log("hi!");
+    
     Action.remove({viewed_id:userid, timestamp:{"$lt":dayEarlier}}, function(err){
 	if (err) {
 	    console.log("an error occured while trying to delete");
 	} else {
 	    console.log("successfully deleted stuff");
 	    // after deleting those messages from the days before, keep on going:
-	    options = {
-		host: "graph.facebook.com"
-		, port: 80
-		, path: "/"+userid
-	    };
-
 	    getJSON(options, function(statusCode, output){
 		console.log("statusCode: "+statusCode);
 		console.log("object received: "+JSON.stringify(output));
@@ -248,12 +226,11 @@ exports.registerUser = function(req, res) {
     , options;
 
     // get the user's id
-    userid = req.query.userid;
+    userid = req.body.userid;
 
-    User.find({"userid": userid}, function(err, users){
+    // create a new user and store in the database
+    User.find({userid: userid}, function(err, users){
 	// if the user  already exists
-	console.log(users);
-	console.log(err);
 	if (users.length > 0) {
 	    response.code = 0;
 	    // 0 -> "User Already Exists"

@@ -5,6 +5,7 @@ $(document).ready(function(){
 
     // then get the notifications via an ajax call
     $.get('http://redpill.herokuapp.com/getnotifications', function(data) {
+<<<<<<< HEAD
         data= JSON.parse(data);
         for (d in data){
            //information needed to retrieve from action: viewer_id, timestamp, link
@@ -22,6 +23,9 @@ $(document).ready(function(){
 
            
         }
+=======
+	// dat
+>>>>>>> bb347a34f0fb03eb97b43f32ddfbbd02a8f78786
     });
 });
 
