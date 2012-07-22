@@ -14,6 +14,10 @@ notifications = {
         }   
     },
 
+    markAllAsSeen: function( pill ) {
+        pill.send("markSeen", { _ids: [] });
+    },
+
     getLastFiveNotifs: function() {
         // TODO
     },
@@ -28,7 +32,6 @@ notifications = {
     // figures out and returns the number of unread notifs
     // the user has. called by updateUnreadNotifCount().
     getUnreadNotifCount: function() {
-        // TODO
         return num_unread_notif;
     },
 

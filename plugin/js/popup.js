@@ -1,4 +1,8 @@
 var notifs = chrome.extension.getBackgroundPage().notifications;   
+
+pill.init();
+notifs.markAllAsSeen( pill );
+
 // loadIframeContents();
 
 // TODO check this..?
