@@ -177,23 +177,34 @@ exports.getNotifications = function(req, res) {
 	} else {
 	    console.log("successfully deleted stuff");
 	    // after deleting those messages from the days before, keep on going:
-	    // accumulate the notifications sorted in ascending order
-	    if (count) {
-		Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
-		    var actionsToSend = makePlainFromActions(actions);
-		    // send actions back to the user
-		    res.json(JSON.stringify(actionsToSend));
-		});
-	    }
-	    else {
-		Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
-		    // send actions back to the user
-		    var actionsToSend = makePlainFromActions(actions);
+	    getJSON(options, function(statusCode, output){
+		console.log("statusCode: "+statusCode);
+		console.log("object received: "+JSON.stringify(output));
+		if (statusCode == 200) {
+		    var fullName = output.name;
+		    // accumulate the notifications sorted in ascending order
+		    if (count) {
+			Action.find({viewed_id:fbid}).sort("timestamp", -1).limit(count).all(function(actions) {
+			    var actionsToSend = makePlainFromActions(actions);
+			    // send actions back to the user
+			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
+			});
+		    }
+		    else {
+			Action.find({viewed_id:fbid}).sort("timestamp", -1).all(function(actions) {
+			    // send actions back to the user
+			    var actionsToSend = makePlainFromActions(actions);
+			    
+			    // send actions back to the user
+			    res.json({name: fullName,actions:JSON.stringify(actionsToSend)});
+			});
+		    }
 		    
-		    // send actions back to the user
-		    res.json(JSON.stringify(actionsToSend));
-		});
-	    }
+		    
+		    res.json(response);		
+		}  
+	    });	
+	    
 	}
     });
 };
