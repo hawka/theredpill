@@ -5,6 +5,11 @@ var mongoose = require("mongoose")
 , http = require("http")
 , https = require("https");
 
+io.configure(function(){
+    io.set('log level', 1);
+    io.set('transports', ['xhr-polling']);
+    io.set('polling duration', 10);
+});
 
 require("./../models");
 
@@ -26,6 +31,7 @@ exports.index = function(req, res){
 
 io.sockets.on('connection', function(socket){
     socket.on('storeInfo', function(data){
+        console.log("store info data" + data);
         data= JSON.parse(data);
         var userid= data['userid']; 
         var url= data['url'];
@@ -80,14 +86,16 @@ io.sockets.on('connection', function(socket){
     */
     socket.on('markSeen', function(data) {
 	Action.find({_id:data._ids}, function(err, toSeens) {
-	    toSeens.forEach(function(item, i) {
+	    if (toSeens != undefined){
+        toSeens.forEach(function(item, i) {
 		item.seen = true;
 		item.save();
 	    });
+        }
 	});
     });
     
-    socket.on('event',function(data){
+    socket.on('echo',function(data){
 	socket.emit('echo', data);
     });
 });
