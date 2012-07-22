@@ -236,6 +236,9 @@ exports.registerUser = function(req, res) {
 
     // get the user's id
     userid = req.query.userid;
+    console.log(req.query);
+    console.log(req.body);
+    console.log(req.params);
     console.log(userid);
     // create a new user and store in the database
     console.log("printing user");
