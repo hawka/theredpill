@@ -28,58 +28,46 @@ io.sockets.on('connection', function(socket){
         data= JSON.parse(data);
         var userid= data['userid']; 
         var url= data['url'];
-
+	
         var action = parseURL(url,userid);
         if (action == null){
             action.save();
-            User.find({userid: userid},function (err, doc){
-                if (doc.length > 1){
-                    console.log('multiple documents');
-                    response.code = 0; 
-                }
-                else{
-                    var name= doc['name']; 
-                    var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
-                        'timestamp': action.timestamp, 'link': action.link,'seen': action.seen, 'name': name };
-                    socket.emit('stalked', jsonAction);
-                    res.json( {'code' :3});
-                }
-
-            }
-            });
+            var jsonAction= {'viewer_id': action.viewer_id, 'viewed_id': action.viewed_id, 'view_type': action.view_type,
+			     'timestamp': action.timestamp, 'link': action.link,'seen': action.seen };
+            socket.emit('stalked', jsonAction);
+            res.json( {'code' :3});
+        }
         else
-        {
+	{
             res.json({'code': 2 });
-        }
-
+	}
+	
     });
-
-    socket.on('seen', function(data){
-<<<<<<< HEAD
-        data= JSON.parse(data);
-        var _ids= data['_ids'];
-        if (_ids[0] == null){
-            //mark all as seen
-            Action.find({}, function(err, actions){
-                for (a in actions){
-                    actions[a]['seen'] = true;
-                    actions.save();
-            }
-        
-        });
-    }
-    Action.find({_id: _ids}, function(err, actions){
-        for (a in actions){
-            actions[a]['seen'] = true;
-            actions.save();
-        }
     
-        )};
-    )};
-
-  socket.on('event',function(data){
-  socket.emit('echo', data);
-  }
+    socket.on('seen', function(data){
+	console.log(data);
+	data= JSON.parse(data);
+	var _ids= data['_ids'];
+	if (_ids[0] == null){
+	    //mark all as seen
+	    Action.find({}, function(err, actions){
+		for (a in actions){
+		    actions[a]['seen'] = true;
+		    actions.save();
+		}
+		
+	    });
+	}
+	Action.find({_id: _ids}, function(err, actions){
+	    for (a in actions){
+		actions[a]['seen'] = true;
+		actions.save();
+	    }
+	});
+    });
+    socket.on('event',function(data){
+	socket.emit('echo', data);
+    });
 });
 
 
